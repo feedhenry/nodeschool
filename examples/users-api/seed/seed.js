@@ -4,48 +4,35 @@
  * To seed, run `npm run-script seed`
  */
 
-var seeder = require('mongoose-seed');
 var logger = require('winston');
+var PouchDB = require('pouchdb')
 
-var seed = function(cb) {
-  seeder.connect('mongodb://localhost/users', function() {
-
-    // Load the User model
-    seeder.loadModels([
-      'models/user.js'
-    ]);
-
-    // Drop existing User documents
-    seeder.clearModels(['User'], function() {
-
-      // Populate from `users.json`
-      seeder.populateModels(require('./users.json'), function(err) {
-        if (err) {
-          logger.error('Error seeding', err);
-          if (require.main === module) {
-            return process.exit(1);
-          } else {
-            return cb(err);
-          }
-        }
-
-        logger.log('Seeding done.');
-        if (require.main === module) {
-          process.exit(0);
-        } else {
-          return cb();
-        }
-      });
-
+var seed = function(dbname,cb) {
+    var user_data = require('./users.json');
+    var old_db = new PouchDB(dbname);
+    var new_db;
+    old_db.destroy()
+    .then(() => {
+      new_db = new PouchDB(dbname);
+      return new_db.bulkDocs(user_data[0].documents);
+    }).then(function (result) {
+      logger.log(result);
+      new_db.close(cb)
+    }).catch(function (err) {
+      logger.log(err);
+      new_db.close(cb)
     });
-  });
-};
+}
 
 // Run explicitly (e.g. not require'd)
 if (require.main === module) {
-  seed(function() {
-    logger.log('Seeding complete, exiting.');
-  });
+  if(process.argv.length != 3){
+    logger.log('You need to specify database.');
+  } else {
+    seed(process.argv[2], function() {
+      logger.log('Seeding complete, exiting.');
+    });
+  }
 }
 
 module.exports = seed;
