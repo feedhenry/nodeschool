@@ -14,6 +14,10 @@ var seed = function(dbname,cb) {
     old_db.destroy()
     .then(() => {
       new_db = new PouchDB(dbname);
+      data = user_data[0].documents.map(u => {
+        u._id = u.username;
+        return u;
+      });
       return new_db.bulkDocs(user_data[0].documents);
     }).then(function (result) {
       logger.log(result);
