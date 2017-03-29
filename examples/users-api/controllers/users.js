@@ -1,6 +1,15 @@
 var express = require('express');
 var router = express.Router();
 
+function getReqBuffer (req) {
+  return new Promise((resolve, reject) => {
+    const bufs = [];
+    req.on('data', d => bufs.push(d));
+    req.on('end', () => resolve(Buffer.concat(bufs)));
+    req.on('err', e => reject(e));
+  });
+}
+
 async function userExists (db, id) {
   try {
     await db.get(id);
@@ -27,26 +36,20 @@ function wrapPouchException (next) {
         });
       }
     }
-  }
+  };
 }
 
 function userController (db) {
-  // GET /users
-  // Get a list of users
   router.get('/', async function (req, res) {
     const users = await db.allDocs();
     res.json(users);
   });
 
-  // GET /users/:id
-  // Get a user by ID
   router.get('/:id', wrapPouchException(async function (req, res) {
     const user = await db.get(req.params.id);
     res.json(user);
   }));
 
-  // POST /users/:id
-  // Get a user by ID
   router.post('/:id', wrapPouchException(async function (req, res) {
     const data = req.body;
     const id = req.params.id;
@@ -63,9 +66,7 @@ function userController (db) {
     var id = req.params.id;
     var data = req.body;
     const doc = await db.get(id);
-    data._id = id;
-    data._rev = doc._rev;
-    const response = await db.put(data);
+    const response = await db.put(Object.assign(doc, data));
     res.json(response);
   }));
 
@@ -76,14 +77,21 @@ function userController (db) {
     res.json(response);
   }));
 
-
   router.put('/:id/attachment/:name', wrapPouchException(async function (req, res) {
     var id = req.params.id;
     var name = req.params.name;
-    const response = await db.putAttachment(id, name, req, 'application/octet-stream');
+    const buffer = await getReqBuffer(req);
+    const doc = await db.get(id);
+    if (!('_attachments' in doc)) {
+      doc['_attachments'] = {};
+    }
+    doc['_attachments'][name] = {
+      'content_type': 'application/octet-stream',
+      'data': buffer
+    };
+    const response = await db.put(doc);
     res.json(response);
   }));
-
 
   router.get('/:id/attachment/:name', wrapPouchException(async function (req, res) {
     var id = req.params.id;

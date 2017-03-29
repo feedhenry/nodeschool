@@ -20,7 +20,7 @@ function buildApp (config) {
 if (require.main === module) {
   // Only connect to MongoDB if app.js is run
   // If require'd (e.g. in tests), let these tests establish a DB connection themselves
-  const config = require('config.json');
+  const config = require('./config.json');
   const app = buildApp(config);
   // See the User Controller for `/users` routes
   // Only listen when app.js is run - acceptance tests will listen on another port
