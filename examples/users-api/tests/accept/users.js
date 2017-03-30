@@ -109,7 +109,7 @@ describe('Users', function () {
   describe('PUT users/:id/attachment/:name', function () {
     it('should add an attachment', function (done) {
       // Find a user in the DB
-      fs.readFile('./Rebio-park-menu-27.pdf', (err, upload) => {
+      fs.readFile('./fixtures/test.pdf', (err, upload) => {
         chai.request(url)
         .put('/users/tinywolf709/attachment/test.pdf')
         .set('content-type', 'application/octet-stream')

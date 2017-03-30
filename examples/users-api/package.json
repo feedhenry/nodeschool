@@ -5,6 +5,9 @@
   "main": "app.js",
   "author": "Red Hat",
   "license": "MIT",
+  "semistandard": {
+      "parser": "babel-eslint"
+  },
   "scripts": {
     "start": "node ./app.js",
     "seed": "node ./seed/seed.js",
