@@ -67,11 +67,11 @@ describe('Users', function () {
         body: {
           'gender': 'female',
           'email': 'alison.reid@example.com',
-          'username': 'tinymouse700'
+          'username': 'crazybear294'
         }
       });
-      var response = await baseRequest('/users/tinywolf709');
-      expect(response.email).to.equal('alison.reid@example.com');
+      var response = await baseRequest('/users/crazybear294');
+      expect(response.username).to.equal('crazybear294');
     });
 
     it('should fail if user already exists', async function () {
