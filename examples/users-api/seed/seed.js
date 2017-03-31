@@ -4,39 +4,39 @@
  * To seed, run `npm run-script seed`
  */
 
-var logger = require('winston');
+var logger = require('winston')
 var PouchDB = require('pouchdb')
 
 var seed = function(dbname,cb) {
-    var user_data = require('./users.json');
-    var old_db = new PouchDB(dbname);
-    var new_db;
-    old_db.destroy()
-    .then(() => {
-      new_db = new PouchDB(dbname);
-      data = user_data[0].documents.map(u => {
-        u._id = u.username;
-        return u;
-      });
-      return new_db.bulkDocs(user_data[0].documents);
-    }).then(function (result) {
-      logger.log(result);
-      new_db.close(cb)
-    }).catch(function (err) {
-      logger.log(err);
-      new_db.close(cb)
-    });
+  var user_data = require('./users.json')
+  var old_db = new PouchDB(dbname)
+  var new_db
+  old_db.destroy()
+  .then(() => {
+    new_db = new PouchDB(dbname)
+    const data = user_data[0].documents.map(u => {
+      u._id = u.username
+      return u
+    })
+    return new_db.bulkDocs(data)
+  }).then(function (result) {
+    logger.log(result)
+    new_db.close(cb)
+  }).catch(function (err) {
+    logger.log(err)
+    new_db.close(cb)
+  })
 }
 
 // Run explicitly (e.g. not require'd)
 if (require.main === module) {
   if(process.argv.length != 3){
-    logger.log('You need to specify database.');
+    logger.log('You need to specify database.')
   } else {
     seed(process.argv[2], function() {
-      logger.log('Seeding complete, exiting.');
-    });
+      logger.log('Seeding complete, exiting.')
+    })
   }
 }
 
-module.exports = seed;
+module.exports = seed
