@@ -1,5 +1,7 @@
 # NODE SCHOOL by Red Hat Mobile
 
+[![Join the chat at https://gitter.im/fhnodeschool/Lobby](https://badges.gitter.im/fhnodeschool/Lobby.svg)](https://gitter.im/fhnodeschool/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 This repository should server as resource for series of courses organized by team at Red Hat Mobile.
 
 *THIS IS A WORK IN PROGRESS*
