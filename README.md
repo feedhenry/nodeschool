@@ -1,6 +1,6 @@
 # NODE SCHOOL by Red Hat Mobile
 
-This repository should server as resource for series of courses organized by team at Red Hat Mobile.
+This repository should serve as resource for series of courses organized by team at Red Hat Mobile.
 
 *THIS IS A WORK IN PROGRESS*
 
@@ -31,7 +31,7 @@ After taking this course, you should be able to create a small but usefull http 
 5. Working with databases and persistent storage, MongoDB, Mongoose and Redis
 6. Scaling an application, handling concurrency, clustered module and workers
 
-Currently, we are aiming to have a 4 hour horskhop that would cover this.
+Currently, we are aiming to have a 4 hour workshop that would cover this.
 
 ## Excercises from nodeschool.io
 
@@ -73,7 +73,7 @@ paired with a test-runer.
 
 ## Slides/scratchpad
 
-We have provided a dockerfile that contains ijs configured for node 6 against jupoter notebook.
+We have provided a dockerfile that contains ijs configured for node 6 against jupyter notebook.
 This is for quickly presenting the trickier parts of Java Script, with environment that is nicer,
 than the usuall nodejs repl.
 
