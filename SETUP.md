@@ -31,7 +31,7 @@ Now you should be able to use this to install the nodejs runtime itself:
 * In running terminal, paste in `nvm install 8.4.0`
 * Wait for installation to complete
 * Now, when you run `node -v` in your terminal, you should be able to see ""v8.4.0"
-* To check, that it can execute javascript, paste in `node -e "console.log('Hello World!')"`
+* To check, that it can execute javascript, paste in `node -e 'console.log("Hello World!")'`
 * You should see 'Hello World!' in your terminal window
 
 You could read the [full installation instructions](https://github.com/creationix/nvm#installation) 
