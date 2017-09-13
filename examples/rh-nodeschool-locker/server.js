@@ -1,21 +1,34 @@
 const express = require('express');
 const PouchDB = require('pouchdb');
 
-const db = new PouchDB('./database');
+const db = new PouchDB('/tmp/database');
 
 const app = express();
 const router = express.Router();
+var path = require('path');
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+});
 
 app.use('/locker', router);
 app.listen(8000, function () {
   console.log('Listening at http://localhost:8000');
 });
 
+router.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname + '/index.html'));
+});
+
+
 function wrap (responder) {
   return async (req, res) => {
     try {
       await responder(req, res);
     } catch (exception) {
+      console.log(exception)
       res.status(500).json(exception);
     }
   };
